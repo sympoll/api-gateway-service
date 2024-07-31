@@ -29,6 +29,7 @@ public class ApiGatewayServiceApplication {
 								.addResponseHeader("Response-Powered-By", "API Gateway Service"))
 						.uri(pollRouteUri)
 				)
+//				.route(r -> r.path("/api/user/**"))
 				.build();
 	}
 }
