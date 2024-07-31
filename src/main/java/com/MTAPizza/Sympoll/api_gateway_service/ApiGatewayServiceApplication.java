@@ -24,9 +24,8 @@ public class ApiGatewayServiceApplication {
 	public RouteLocator routeLocator(RouteLocatorBuilder builder) {
 		log.info("Received request, routing to the specified route...");
 		return builder.routes()
-				.route(r -> r.path("/poll/**")
+				.route(r -> r.path("/api/poll/**")
 						.filters(f -> f
-								.prefixPath("/api")
 								.addResponseHeader("Response-Powered-By", "API Gateway Service"))
 						.uri(pollRouteUri)
 				)
