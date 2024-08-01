@@ -1,13 +1,9 @@
-name: RELEASE - Build and push Docker image to Github packages
+name: TEST CONTAINER - Build and push Docker image to Github packages
 on:
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - "**/README.md"
-      - ".github/workflows/**"
-      - "**/.gitignore"
   workflow_dispatch:
+
+env:
+  IMAGE_NAME: ghcr.io/${{ github.repository }}/sympoll-api-gateway-service-test
 
 jobs:
   build-and-push:
@@ -47,7 +43,7 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            ghcr.io/${{ github.repository }}/sympoll-api-gateway:${{ steps.date.outputs.DATE }}
-            ghcr.io/${{ github.repository }}/sympoll-api-gateway:latest
+            ${{ env.IMAGE_NAME }}:${{ steps.date.outputs.DATE }}
+            ${{ env.IMAGE_NAME }}:latest
           cache-from: type=gha,key=${{ runner.os }}-build-${{ github.sha }}  # Use cached layers based on commit SHA
 
