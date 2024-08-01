@@ -47,7 +47,7 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            ghcr.io/${{ github.repository }}/sympoll-api-gateway-test:${{ steps.date.outputs.DATE }}
-            ghcr.io/${{ github.repository }}/sympoll-api-gateway-test:latest
+            ghcr.io/${{ github.repository }}/sympoll-api-gateway:${{ steps.date.outputs.DATE }}
+            ghcr.io/${{ github.repository }}/sympoll-api-gateway:latest
           cache-from: type=gha,key=${{ runner.os }}-build-${{ github.sha }}  # Use cached layers based on commit SHA
 
