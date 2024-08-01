@@ -1,4 +1,4 @@
-name: RELEASE - Build and push Docker image to GitHub Packages
+name: TEST CONTAINER - Build and push Docker image to GitHub Packages
 on:
   workflow_dispatch:
 
