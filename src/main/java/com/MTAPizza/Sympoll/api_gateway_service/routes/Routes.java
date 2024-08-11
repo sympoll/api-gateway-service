@@ -26,7 +26,7 @@ public class Routes {
     public RouterFunction<ServerResponse> pollServiceRoute() {
         log.info("Received a poll route request");
         return GatewayRouterFunctions.route("poll-service")
-                .route(RequestPredicates.path("api/poll"), HandlerFunctions.http(pollRouteUri))
+                .route(RequestPredicates.path("api/poll/**"), HandlerFunctions.http(pollRouteUri))
                 .build();
     }
 
@@ -34,7 +34,7 @@ public class Routes {
     public RouterFunction<ServerResponse> groupServiceRoute() {
         log.info("Received a group route request");
         return GatewayRouterFunctions.route("group-service")
-                .route(RequestPredicates.path("api/group"), HandlerFunctions.http(groupRouteUri))
+                .route(RequestPredicates.path("api/group/**"), HandlerFunctions.http(groupRouteUri))
                 .build();
     }
 }
