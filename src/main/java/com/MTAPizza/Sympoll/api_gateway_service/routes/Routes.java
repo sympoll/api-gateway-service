@@ -22,6 +22,12 @@ public class Routes {
     @Value("${group.route.uri}")
     private String groupRouteUri;
 
+    @Value("${user.route.uri}")
+    private String userRouteUri;
+
+    @Value("${vote.route.uri}")
+    private String voteRouteUri;
+
     @Bean
     public RouterFunction<ServerResponse> pollServiceRoute() {
         log.info("Received a poll route request");
@@ -35,6 +41,22 @@ public class Routes {
         log.info("Received a group route request");
         return GatewayRouterFunctions.route("group-service")
                 .route(RequestPredicates.path("api/group/**"), HandlerFunctions.http(groupRouteUri))
+                .build();
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> userServiceRoute() {
+        log.info("Received a user route request");
+        return GatewayRouterFunctions.route("user-service")
+                .route(RequestPredicates.path("api/user/**"), HandlerFunctions.http(userRouteUri))
+                .build();
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> voteServiceRoute() {
+        log.info("Received a vote route request");
+        return GatewayRouterFunctions.route("vote-service")
+                .route(RequestPredicates.path("api/vote/**"), HandlerFunctions.http(voteRouteUri))
                 .build();
     }
 }
