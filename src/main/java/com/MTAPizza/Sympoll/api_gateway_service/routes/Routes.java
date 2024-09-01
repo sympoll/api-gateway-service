@@ -28,6 +28,9 @@ public class Routes {
     @Value("${vote.route.uri}")
     private String voteRouteUri;
 
+    @Value("${media.route.uri}")
+    private String mediaRouteUri;
+
     @Bean
     public RouterFunction<ServerResponse> pollServiceRoute() {
         log.info("Received a poll route request");
@@ -57,6 +60,14 @@ public class Routes {
         log.info("Received a vote route request");
         return GatewayRouterFunctions.route("vote-service")
                 .route(RequestPredicates.path("api/vote/**"), HandlerFunctions.http(voteRouteUri))
+                .build();
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> mediaServiceRoute() {
+        log.info("Received a media route request");
+        return GatewayRouterFunctions.route("media-service")
+                .route(RequestPredicates.path("api/media/**"), HandlerFunctions.http(mediaRouteUri))
                 .build();
     }
 }
