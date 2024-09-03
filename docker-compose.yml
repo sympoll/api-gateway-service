@@ -4,8 +4,6 @@ services:
     container_name: poll-service-dc
     ports:
       - "8082:8082"
-    networks:
-      - sympoll-network
 
   keycloak-db:
     container_name: keycloak-db
