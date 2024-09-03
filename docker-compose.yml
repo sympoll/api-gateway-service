@@ -1,10 +1,34 @@
-version: '3.8'
 services:
+  user-db:
+    image: postgres:16.2
+    container_name: user-db
+    ports:
+      - "5432:5432"  # Maps 5433 externally to 5432 internally
+    environment:
+      POSTGRES_DB: userdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1
+    volumes:
+      - ./data:/var/lib/postgresql/data
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - sympoll-network
+
+  user-service:
+    image: ghcr.io/sympoll/user-service/sympoll-user-service:latest
+    container_name: user-service-dc
+    ports:
+      - "8083:8083"
+    depends_on:
+      - user-db
+    networks:
+      - sympoll-network
+
   keycloak-db:
     container_name: keycloak-db
     image: postgres:16.2
     ports:
-      - "5432:5432"
+      - "5400:5432"
     environment:
       POSTGRES_DB: keycloak
       POSTGRES_USER: postgres
@@ -12,6 +36,9 @@ services:
     volumes:
       - ./data:/var/lib/postgresql/data  # Maps the local directory ./data to the container’s data directory for data persistence.
       - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - sympoll-network
+
   keycloak:
     container_name: keycloak
     image: quay.io/keycloak/keycloak:24.0.1
@@ -30,3 +57,9 @@ services:
       - ./docker/keycloak/realms/:/opt/keycloak/data/import/
     depends_on:
       - keycloak-db
+    networks:
+      - sympoll-network
+
+networks:
+  sympoll-network:
+    driver: bridge
