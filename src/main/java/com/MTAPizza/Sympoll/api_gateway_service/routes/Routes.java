@@ -64,11 +64,11 @@ public class Routes {
                 .build();
     }
 
-    @Bean
-    public RouterFunction<ServerResponse> mediaServiceRoute() {
-        log.info("Received a media route request");
-        return GatewayRouterFunctions.route("media-service")
-                .route(RequestPredicates.path("api/media/**"), HandlerFunctions.http(mediaRouteUri))
-                .build();
-    }
+//    @Bean
+//    public RouterFunction<ServerResponse> mediaServiceRoute() {
+//        log.info("Received a media route request");
+//        return GatewayRouterFunctions.route("media-service")
+//                .route(RequestPredicates.path("api/media/**"), HandlerFunctions.http(mediaRouteUri))
+//                .build();
+//    }
 }
