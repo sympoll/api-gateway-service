@@ -34,6 +34,7 @@ public class Routes {
     @Bean
     public RouterFunction<ServerResponse> pollServiceRoute() {
         log.info("Received a poll route request");
+        log.info("Keycloak url: {}", "${spring.security.oauth2.resourceserver.jwt.issuer-uri}");
         return GatewayRouterFunctions.route("poll-service")
                 .route(RequestPredicates.path("api/poll/**"), HandlerFunctions.http(pollRouteUri))
                 .build();
