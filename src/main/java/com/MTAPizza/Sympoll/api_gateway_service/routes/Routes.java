@@ -34,7 +34,6 @@ public class Routes {
     @Bean
     public RouterFunction<ServerResponse> pollServiceRoute() {
         log.info("Received a poll route request");
-        log.info("Keycloak url: {}", "${spring.security.oauth2.resourceserver.jwt.issuer-uri}");
         return GatewayRouterFunctions.route("poll-service")
                 .route(RequestPredicates.path("api/poll/**"), HandlerFunctions.http(pollRouteUri))
                 .build();
@@ -64,11 +63,11 @@ public class Routes {
                 .build();
     }
 
-//    @Bean
-//    public RouterFunction<ServerResponse> mediaServiceRoute() {
-//        log.info("Received a media route request");
-//        return GatewayRouterFunctions.route("media-service")
-//                .route(RequestPredicates.path("api/media/**"), HandlerFunctions.http(mediaRouteUri))
-//                .build();
-//    }
+    @Bean
+    public RouterFunction<ServerResponse> mediaServiceRoute() {
+        log.info("Received a media route request");
+        return GatewayRouterFunctions.route("media-service")
+                .route(RequestPredicates.path("api/media/**"), HandlerFunctions.http(mediaRouteUri))
+                .build();
+    }
 }
