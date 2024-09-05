@@ -12,9 +12,14 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @Profile("auth-disabled")
 public class SecurityConfigDisabled {
+
     @Bean
-    public void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeRequests().anyRequest().permitAll();
+    public SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .authorizeRequests(authorizeRequests ->
+                        authorizeRequests.anyRequest().permitAll()
+                );
+
+        return httpSecurity.build(); // Return the configured SecurityFilterChain
     }
 }
-
