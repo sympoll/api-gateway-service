@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.web.SecurityFilterChain;
 
 
 @Configuration
@@ -14,10 +15,12 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 public class SecurityConfigDisabled {
 
     @Bean
-    protected void configure(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable) // Updated way to disable CSRF
-                .authorizeRequests()
-                .anyRequest().permitAll(); // Allow all requests without authentication
+                .csrf(AbstractHttpConfigurer::disable) // New method to disable CSRF
+                .authorizeRequests(auth -> auth
+                        .anyRequest().permitAll()); // Allow all requests without authentication
+
+        return http.build();
     }
 }
