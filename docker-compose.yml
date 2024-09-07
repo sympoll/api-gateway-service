@@ -1,0 +1,53 @@
+services:
+  poll-service:
+    image:  ghcr.io/sympoll/poll-service/sympoll-poll-service:latest
+    container_name: poll-service-dc
+    ports:
+      - "8082:8082"
+    networks:
+      - sympoll-network
+
+  api-gateway:
+    image: ghcr.io/sympoll/api-gateway-service/sympoll-api-gateway-service-test:latest
+    ports:
+      - "8081:8081"
+    networks:
+      - sympoll-network
+
+  keycloak-mysql:
+    container_name: keycloak-mysql
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: keycloak
+      MYSQL_USER: keycloak
+      MYSQL_PASSWORD: password
+    volumes:
+      - ./volume-data/mysql_keycloak_data:/var/lib/mysql
+    networks:
+      - sympoll-network
+
+  keycloak:
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:24.0.1
+    command: [ "start-dev", "--import-realm" ]
+    environment:
+      DB_VENDOR: MYSQL
+      DB_ADDR: mysql
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: password
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8181:8080"
+    volumes:
+      - ./docker/keycloak/realms/:/opt/keycloak/data/import/
+    depends_on:
+      - keycloak-mysql
+    networks:
+      - sympoll-network
+
+networks:
+  sympoll-network:
+    driver: bridge
